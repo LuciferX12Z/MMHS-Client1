@@ -1,0 +1,40 @@
+.drawer,
+.drawerToggleButtonContainer {
+  display: none;
+}
+
+.drawerToggleButton{
+  font-size: 30px;
+}
+
+.sidebarLinks {
+    padding-block: 8px;
+}
+
+.sidebarLinks:hover {
+  background-color: #0275D8;
+  color : white;
+}
+
+.sidebarLinks span{
+    padding-left: 2px;
+}
+
+
+
+@media (max-width: 991px) {
+  .drawerToggleButton{
+    font-size: 30px;
+  }
+  .sidebar {
+    display: none;
+  }
+
+  .drawer {
+    display: inline;
+  }
+
+  .drawerToggleButtonContainer {
+    display: block;
+  }
+}

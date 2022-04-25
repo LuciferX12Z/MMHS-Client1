@@ -1,0 +1,42 @@
+.body {
+  font-size: large;
+  font-weight: 400;
+}
+h5 {
+  padding-top: 1em;
+}
+
+
+
+.image {
+  width: 50vw;
+  height: 50vh;
+}
+.text {
+  text-align: left;
+  padding-inline: 20%;
+  padding-top: 1em;
+  padding-bottom: 3em;
+}
+.btn {
+  margin-top: 2em;
+  margin-right: 1em;
+}
+@media only screen and (max-width: 765px) {
+  .image {
+    width: 70vw;
+    height: 40vh;
+  }
+  .text {
+    padding-inline: 15%;
+  }
+}
+@media only screen and (max-width: 400px) {
+  .image {
+    width: 80vw;
+    height: 30vh;
+  }
+  .text {
+    padding-inline: 10%;
+  }
+}

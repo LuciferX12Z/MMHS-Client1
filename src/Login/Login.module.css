@@ -1,0 +1,45 @@
+.all {
+  max-height: 80%;
+  /* width: 100vw; */
+}
+.img {
+  width: 100%;
+  height: 40em;
+}
+.image {
+  height: 100%;
+  width: 100%;
+}
+.text {
+  height: 100%;
+  width: 100%;
+}
+.ckblink {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+.link {
+  text-align: right;
+}
+@media only screen and (max-width: 765px) {
+  .image {
+    display: none;
+  }
+  .form {
+    padding: 3em;
+    padding-block: 6em;
+  }
+}
+@media only screen and (max-width: 400px) {
+  .form {
+    padding: 1em;
+    padding-block: 6em;
+  }
+  .cbkdiv {
+    display: block;
+  }
+  .ckblink {
+    line-height: 27px;
+    display: block;
+  }
+}

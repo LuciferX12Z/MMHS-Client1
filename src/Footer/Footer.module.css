@@ -1,0 +1,10 @@
+.footer_container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.footer_icon {
+  margin: 10px 10px 10px 0;
+  font-size: 2rem;
+}
