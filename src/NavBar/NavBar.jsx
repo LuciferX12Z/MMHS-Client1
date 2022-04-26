@@ -5,21 +5,20 @@ import logoImage from "../dummyImages/mmhs.png";
 import { NavBarStyles } from "../Exporter/Exporter";
 import { UserContext } from "../contexts/UserContext";
 import axios from "axios";
+const url = process.env.REACT_APP_BACKEND_URL;
 
 export const NavBar = () => {
   const [expanded, setExpanded] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useContext(UserContext);
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/checkSession", { withCredentials: true })
-      .then((res) => {
-        console.log(res.data.message);
-        if (res.data.message === "ok") {
-          setIsLoggedIn(true);
-        } else {
-          setIsLoggedIn(false);
-        }
-      });
+    axios.get(`${url}/checkSession`, { withCredentials: true }).then((res) => {
+      console.log(res.data.message);
+      if (res.data.message === "ok") {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+    });
   }, [isLoggedIn]);
   return (
     <Navbar
@@ -85,7 +84,7 @@ export const NavBar = () => {
                   <span
                     onClick={async () =>
                       await axios
-                        .get("http://localhost:5000/logout", {
+                        .get(`${url}/logout`, {
                           withCredentials: true,
                         })
                         .then((value) => {

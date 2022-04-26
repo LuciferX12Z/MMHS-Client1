@@ -6,6 +6,7 @@ import { Row, Col, Typography, Form, Button } from "antd";
 import FormItem from "./FormItem";
 import { useEffect } from "react";
 
+const url = process.env.REACT_APP_BACKEND_URL;
 const leftBackground = {
   backgroundImage: `url(${background})`,
   backgroundRepeat: "no-repeat",
@@ -17,13 +18,11 @@ export const Apply = () => {
   const [inputs, setInputs] = useState();
   const [courses, setCourses] = useState([]);
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/getcourse`)
-      .then((res) => setCourses(res.data));
+    axios.get(`${url}/getcourse`).then((res) => setCourses(res.data));
   }, []);
   const onFinish = (values) => {
     setInputs(values);
-    axios.post("http://localhost:5000/apply", { ...values });
+    axios.post(`${url}/apply`, { ...values });
   };
 
   return (

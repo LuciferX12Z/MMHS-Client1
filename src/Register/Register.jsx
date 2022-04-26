@@ -11,6 +11,7 @@ const leftBackground = {
   backgroundSize: "cover",
   height: "800px",
 };
+const url = process.env.REACT_APP_BACKEND_URL;
 
 export const Register = () => {
   const [inputs, setInputs] = useState();
@@ -18,7 +19,7 @@ export const Register = () => {
   const onFinish = (values) => {
     setInputs(values);
     axios
-      .post("http://localhost:5000/register", { ...values })
+      .post(`${url}/register`, { ...values })
       .then((value) => console.log(value));
     console.log(values);
   };

@@ -4,13 +4,14 @@ import { CardComponent } from "../Exporter/Exporter";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+const url = process.env.REACT_APP_BACKEND_URL;
 export const Courses = (props) => {
   const [courses, setCourses] = useState([]);
 
   // set "withCredentials : true" to send cookies with every request
   useEffect(() => {
     axios
-      .get("http://localhost:5000/getcourse/", {
+      .get(`${url}/getcourse/`, {
         withCredentials: true,
       })
       .then((res) => setCourses(res.data));

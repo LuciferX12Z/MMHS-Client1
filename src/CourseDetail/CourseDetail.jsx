@@ -18,6 +18,7 @@ import { AdvancedImage } from "@cloudinary/react";
 // import { quality } from "@cloudinary/url-gen/actions/delivery";
 // import { auto } from "@cloudinary/url-gen/";
 
+const url = process.env.REACT_APP_BACKEND_URL;
 export const CourseDetail = (props) => {
   console.log(props);
   const [isLoggedIn] = useContext(UserContext);
@@ -40,7 +41,7 @@ export const CourseDetail = (props) => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/getStudentCount/${_id}`, {
+      .get(`${url}/getStudentCount/${_id}`, {
         withCreditentials: true,
       })
       .then((res) => console.log(res));
@@ -56,7 +57,7 @@ export const CourseDetail = (props) => {
 
   function deleteCourse() {
     axios
-      .delete(`http://localhost:5000/deleteCourse/${_id}`)
+      .delete(`${url}/deleteCourse/${_id}`)
       .then((res) => {
         if (res.status === 200) {
           props.history.replace("/courses");

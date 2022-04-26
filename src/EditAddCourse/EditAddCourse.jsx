@@ -9,6 +9,7 @@ import { UserContext } from "../contexts/UserContext";
 import { Link } from "react-router-dom";
 
 const { Title } = Typography;
+const url = process.env.REACT_APP_BACKEND_URL;
 
 export const EditAddCourse = (props) => {
   const [inputs, setInputs] = useState();
@@ -87,7 +88,7 @@ export const EditAddCourse = (props) => {
       isEdit === true
         ? axios({
             method: "put",
-            url: `http://localhost:5000/editCourse/${_id}`,
+            url: `${url}/editCourse/${_id}`,
             data: { ...values },
             withCredentials: true,
           }).then(
@@ -95,7 +96,7 @@ export const EditAddCourse = (props) => {
           )
         : axios({
             method: "post",
-            url: "http://localhost:5000/addCourse",
+            url: `${url}/addCourse`,
             data: { ...values },
             withCredentials: true,
           }).then(

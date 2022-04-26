@@ -12,18 +12,18 @@ const leftBackground = {
   backgroundSize: "cover",
   height: "600px",
 };
+const url = process.env.REACT_APP_BACKEND_URL;
 
-export const Login = ({history}) => {
+export const Login = ({ history }) => {
   const [inputs, setInputs] = useState();
   const [isLoggedIn, setIsLoggedIn] = useContext(UserContext);
-
 
   const onFinish = (values) => {
     setInputs(values);
     // set "withCredentials : true" to send cookies with every request
     axios
       .post(
-        "http://localhost:5000/login",
+        `${url}/login`,
         { ...values },
         {
           withCredentials: true,
@@ -33,7 +33,7 @@ export const Login = ({history}) => {
         console.log(value);
         if (value && value?.data?.message === "ok") {
           setIsLoggedIn(true);
-          history.push("/")
+          history.push("/");
         }
       });
   };
