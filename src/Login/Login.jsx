@@ -13,6 +13,7 @@ const leftBackground = {
   height: "600px",
 };
 const url = process.env.REACT_APP_BACKEND_URL;
+console.log("url");
 
 export const Login = ({ history }) => {
   const [inputs, setInputs] = useState();
