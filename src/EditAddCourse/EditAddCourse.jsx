@@ -76,10 +76,7 @@ export const EditAddCourse = (props) => {
 
   let images = [];
   const onSubmitHandler = (values) => {
-    if (values?.courseImageUpload?.fileList) {
-      values.courseImageUpload.fileList.map((image, index) =>
-        console.log(image)
-      );
+    if (values?.courseImageUpload?.fileList?.length > 0) {
       images = values.courseImageUpload.fileList.map(
         (image, index) =>
           (values.courseImageUpload.fileList[index].image = {
