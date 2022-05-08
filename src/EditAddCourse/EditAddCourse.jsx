@@ -74,16 +74,21 @@ export const EditAddCourse = (props) => {
     setInputs(values);
   };
 
+  let images = [];
   const onSubmitHandler = (values) => {
-    values.courseImageUpload.fileList.map((image, index) => console.log(image));
-    let images = values.courseImageUpload.fileList.map(
-      (image, index) =>
-        (values.courseImageUpload.fileList[index].image = {
-          public_id: image.public_id,
-          url: image.url,
-          image: image?.image?.result,
-        })
-    );
+    if (values?.courseImageUpload) {
+      values.courseImageUpload.fileList.map((image, index) =>
+        console.log(image)
+      );
+      images = values.courseImageUpload.fileList.map(
+        (image, index) =>
+          (values.courseImageUpload.fileList[index].image = {
+            public_id: image.public_id,
+            url: image.url,
+            image: image?.image?.result,
+          })
+      );
+    }
     if (isSubmit) {
       isEdit === true
         ? axios({
