@@ -88,6 +88,7 @@ export const NavBar = () => {
                           withCredentials: true,
                         })
                         .then((value) => {
+                          console.log(value.data.message);
                           if (value?.data?.message === "ok") {
                             setIsLoggedIn(false);
                             <Redirect to={"/"} />;
