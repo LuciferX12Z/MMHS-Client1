@@ -84,7 +84,7 @@ export const NavBar = () => {
                   <span
                     onClick={async () =>
                       await axios
-                        .get(`${url}/logout`, {
+                        .post(`${url}/logout`, {
                           withCredentials: true,
                         })
                         .then((value) => {

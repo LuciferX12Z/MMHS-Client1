@@ -127,9 +127,16 @@ export const CourseDetail = (props) => {
         {details}
         <br />
         <div style={{ display: "flex" }}>
-          <Button type="primary" className={classes.btn}>
-            Apply Course
-          </Button>
+          <Link
+            to={{
+              pathname: "/apply",
+              state: { ...props.location.state.course, isEdit: true },
+            }}
+          >
+            <Button type="primary" className={classes.btn}>
+              Apply Course
+            </Button>
+          </Link>
           {isLoggedIn && (
             <div>
               <Link
