@@ -27,7 +27,7 @@ export const Courses = (props) => {
           <Link
             to={{
               pathname: "/editCourse",
-              state: { ...props.location.state.course, isEdit: false },
+              state: { ...props?.location?.state?.course, isEdit: false },
             }}
           >
             <Button type="ghost">Add New Course</Button>
@@ -45,7 +45,7 @@ export const Courses = (props) => {
             style={{ display: "flex", justifyContent: "center" }}
           >
             {" "}
-            <CardComponent course={item} history={props.history} />{" "}
+            <CardComponent course={item} history={props?.history} />{" "}
           </Col>
         ))}
       </Row>
