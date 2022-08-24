@@ -73,6 +73,15 @@ export const NavBar = () => {
               <>
                 <Nav.Link onClick={() => setExpanded(false)}>
                   <Link
+                    to="/admin"
+                    className="nav-link"
+                    style={NavBarStyles.navLinks}
+                  >
+                    Dashboard
+                  </Link>
+                </Nav.Link>
+                <Nav.Link onClick={() => setExpanded(false)}>
+                  <Link
                     to="/register"
                     className="nav-link"
                     style={NavBarStyles.navLinks}

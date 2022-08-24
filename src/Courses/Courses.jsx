@@ -23,14 +23,20 @@ export const Courses = (props) => {
   return (
     <>
       {isLoggedIn && (
-        <div>
+        <div
+        style={{
+          display: "flex",
+          flexDirection: "row-reverse",
+          margin: "1rem 1rem 0 0",
+        }}
+        >
           <Link
             to={{
-              pathname: "/editCourse",
+              pathname: "/addCourse",
               state: { ...props?.location?.state?.course, isEdit: false },
             }}
           >
-            <Button type="ghost">Add New Course</Button>
+            <Button type="primary">Add New Course</Button>
           </Link>
         </div>
       )}
