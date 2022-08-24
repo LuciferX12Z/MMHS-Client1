@@ -21,7 +21,7 @@ export const Courses = (props) => {
       .then((res) => setCourses(res.data));
   }, []);
   return (
-    <div>
+    <>
       {isLoggedIn && (
         <div>
           <Link
@@ -49,9 +49,6 @@ export const Courses = (props) => {
           </Col>
         ))}
       </Row>
-      {/* <div>
-        <button>Add new course</button>
-      </div> */}
-    </div>
+    </>
   );
 };
