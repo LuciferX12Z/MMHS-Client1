@@ -7,7 +7,11 @@ import axios from "axios";
 import { UserContext } from "../contexts/UserContext";
 import { Link } from "react-router-dom";
 
-const url = process.env.REACT_APP_BACKEND_URL;
+const url =
+  process.env.NODE_ENV === "production"
+    ? process.env.REACT_APP_PROD_BACKEND_URL
+    : process.env.REACT_APP_DEV_BACKEND_URL;
+    
 export const Courses = (props) => {
   const [courses, setCourses] = useState([]);
   const [isLoggedIn] = useContext(UserContext);

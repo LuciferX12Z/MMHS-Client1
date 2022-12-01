@@ -12,7 +12,10 @@ const leftBackground = {
   backgroundSize: "cover",
   height: "600px",
 };
-const url = process.env.REACT_APP_BACKEND_URL;
+const url =
+  process.env.NODE_ENV === "production"
+    ? process.env.REACT_APP_PROD_BACKEND_URL
+    : process.env.REACT_APP_DEV_BACKEND_URL;
 console.log("url");
 
 export const Login = ({ history }) => {

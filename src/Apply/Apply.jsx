@@ -6,7 +6,10 @@ import { Row, Col, Typography, Form, Button } from "antd";
 import FormItem from "./FormItem";
 import { useEffect } from "react";
 
-const url = process.env.REACT_APP_BACKEND_URL;
+const url =
+  process.env.NODE_ENV === "production"
+    ? process.env.REACT_APP_PROD_BACKEND_URL
+    : process.env.REACT_APP_DEV_BACKEND_URL;
 const leftBackground = {
   backgroundImage: `url(${background})`,
   backgroundRepeat: "no-repeat",
