@@ -26,7 +26,8 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": " export SET NODE_OPTIONS=--openssl-legacy-provider && cross-env NODE_ENV=production && react-scripts start",
+    "start:dev": "export SET NODE_OPTIONS=--openssl-legacy-provider && cross-env NODE_ENV=development && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -48,5 +49,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }

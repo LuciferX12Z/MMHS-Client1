@@ -9,7 +9,10 @@ import { UserContext } from "../contexts/UserContext";
 import { Link } from "react-router-dom";
 
 const { Title } = Typography;
-const url = process.env.REACT_APP_BACKEND_URL;
+const url =
+  process.env.NODE_ENV === "production"
+    ? process.env.REACT_APP_PROD_BACKEND_URL
+    : process.env.REACT_APP_DEV_BACKEND_URL;
 
 export const EditAddCourse = (props) => {
   const [inputs, setInputs] = useState();

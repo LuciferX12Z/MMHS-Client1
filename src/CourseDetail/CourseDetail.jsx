@@ -18,7 +18,11 @@ import { AdvancedImage } from "@cloudinary/react";
 // import { quality } from "@cloudinary/url-gen/actions/delivery";
 // import { auto } from "@cloudinary/url-gen/";
 
-const url = process.env.REACT_APP_BACKEND_URL;
+const url =
+  process.env.NODE_ENV === "production"
+    ? process.env.REACT_APP_PROD_BACKEND_URL
+    : process.env.REACT_APP_DEV_BACKEND_URL;
+    
 export const CourseDetail = (props) => {
   console.log(props);
   const [isLoggedIn] = useContext(UserContext);

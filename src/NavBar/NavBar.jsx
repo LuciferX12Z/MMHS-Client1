@@ -5,7 +5,10 @@ import logoImage from "../dummyImages/mmhs.png";
 import { NavBarStyles } from "../Exporter/Exporter";
 import { UserContext } from "../contexts/UserContext";
 import axios from "axios";
-const url = process.env.REACT_APP_BACKEND_URL;
+const url =
+  process.env.NODE_ENV === "production"
+    ? process.env.REACT_APP_PROD_BACKEND_URL
+    : process.env.REACT_APP_DEV_BACKEND_URL;
 
 export const NavBar = () => {
   const [expanded, setExpanded] = useState(false);
