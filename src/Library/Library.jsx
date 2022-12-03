@@ -17,18 +17,22 @@ import axios from "axios";
 import { UserContext } from "../contexts/UserContext";
 import { Link } from "react-router-dom";
 
-const url = process.env.REACT_APP_BACKEND_URL;
+const url =
+  process.env.NODE_ENV === "production"
+    ? process.env.REACT_APP_PROD_BACKEND_URL
+    : process.env.REACT_APP_DEV_BACKEND_URL;
+
 export const Library = (props) => {
-  const [courses, setCourses] = useState([]);
+  const [library, setLibrary] = useState([]);
   const [isLoggedIn] = useContext(UserContext);
 
   // set "withCredentials : true" to send cookies with every request
   useEffect(() => {
     axios
-      .get(`${url}/getcourse/`, {
+      .get(`${url}/getlibrary/`, {
         withCredentials: true,
       })
-      .then((res) => setCourses(res.data));
+      .then((res) => setLibrary(res.data));
   }, []);
   return (
     <>
@@ -42,8 +46,8 @@ export const Library = (props) => {
         >
           <Link
             to={{
-              pathname: "/addCourse",
-              state: { ...props?.location?.state?.course, isEdit: false },
+              pathname: "/addBook",
+              state: { ...props?.location?.state?.book, isEdit: false },
             }}
           >
             <Button type="primary">Add New Book</Button>
@@ -51,7 +55,7 @@ export const Library = (props) => {
         </div>
       )}
       <Row wrap justify>
-        {courses?.course?.map((item) => (
+        {library?.book?.map((item) => (
           <Col
             key={item._id}
             lg={6}
@@ -61,7 +65,7 @@ export const Library = (props) => {
             style={{ display: "flex", justifyContent: "center" }}
           >
             {" "}
-            <CardComponent course={item} history={props?.history} />{" "}
+            <CardComponent book={item} history={props?.history} />{" "}
           </Col>
         ))}
       </Row>
