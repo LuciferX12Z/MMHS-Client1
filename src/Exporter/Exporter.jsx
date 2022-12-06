@@ -13,5 +13,7 @@ export { ContactInfo } from "../Footer/Contact/ContactInfo";
 export { CardComponent } from "../Card/CardComponent";
 export { CardStyles } from "../Card/CardStyles";
 export { EditAddCourse } from "../EditAddCourse/EditAddCourse";
+export { EditAddBook } from "../EditAddBook/EditAddBook";
 export { CourseDetail } from "../CourseDetail/CourseDetail";
+export { BookDetail } from "../LibraryDetail/LibraryDetail";
 export { Home } from "../Home/Home";

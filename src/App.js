@@ -11,7 +11,9 @@ import {
   Footer,
   Library,
   EditAddCourse,
+  EditAddBook,
   CourseDetail,
+  BookDetail,
   Home,
 } from "./Exporter/Exporter";
 import { AdminDashboard } from "./AdminDashboard/AdminDashboard";
@@ -30,8 +32,11 @@ const App = () => {
           <Route exact path="/apply" component={Apply} />
           <Route exact path="/addCourse" component={EditAddCourse} />
           <Route exact path="/editCourse" component={EditAddCourse} />
+          <Route exact path="/addBook" component={EditAddBook} />
+          <Route exact path="/editBook" component={EditAddBook} />
           <Route exact path="/admin" component={AdminDashboard} />
-          <Route exact path="/courses/:id" component={CourseDetail} />
+          <Route exact path="/course/:id" component={CourseDetail} />
+          <Route exact path="/book/:id" component={BookDetail} />
           <Route exact path="/" component={Home} />
         </Switch>
       </div>

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import classes from "./CourseDetail.module.css";
+import classes from "./LibraryDetail.module.css";
 import { Button } from "antd";
 import Moment from "react-moment";
 import { Autoplay, Pagination, Navigation } from "swiper";
@@ -23,7 +23,7 @@ const url =
     ? process.env.REACT_APP_PROD_BACKEND_URL
     : process.env.REACT_APP_DEV_BACKEND_URL;
 
-export const CourseDetail = (props) => {
+export const BookDetail = (props) => {
   // console.log(props);
   const [isLoggedIn] = useContext(UserContext);
   const [modalVisibile, setModalVisible] = useState(false);
@@ -33,23 +33,15 @@ export const CourseDetail = (props) => {
   // console.log(props.location.state?.item);
   const {
     _id,
-    courseImageUpload,
-    courseName,
-    teacher,
-    startingDate,
-    endingDate,
-    studentLimit,
-    fee,
+    bookImageUpload,
+    book_name,
+    author,
+    category,
     details,
+    publisher,
+    publish_date,
+    bookUrl,
   } = props.location.state.item;
-
-  useEffect(() => {
-    axios
-      .get(`${url}/getStudentCount/${_id}`, {
-        withCreditentials: true,
-      })
-      .then((res) => console.log(res));
-  }, [_id]);
 
   const cld = new Cloudinary({
     cloud: {
@@ -59,93 +51,65 @@ export const CourseDetail = (props) => {
     },
   });
 
-  function deleteCourse() {
+  function deleteBook() {
     axios
-      .delete(`${url}/deleteCourse/${_id}`)
+      .delete(`${url}/deleteBook/${_id}`)
       .then((res) => {
         if (res.status === 200) {
-          props.history.replace("/courses");
+          props.history.replace("/library");
         }
       })
       .catch((err) => console.log(err));
   }
 
   if (isSubmit) {
-    deleteCourse();
+    deleteBook();
     setIsSubmit(false);
   }
-
+  console.log(bookImageUpload);
   // console.log(props.location.state.course);
   return (
     <div className={classes.body}>
-      <div className={classes.img}>
-        <Swiper
-          spaceBetween={30}
-          centeredSlides
-          autoplay={{
-            delay: 2500,
-            disableOnInteraction: true,
-          }}
-          pagination={{
-            clickable: true,
-          }}
-          navigation={true}
-          modules={[Autoplay, Pagination, Navigation]}
-        >
-          {courseImageUpload.map((image, index) => (
-            <SwiperSlide key={index}>
-              <div
-                key={index}
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  marginTop: 50,
-                }}
-              >
-                {
-                  <AdvancedImage
-                    cldImg={cld
-                      .image(image?.public_id)
-                      // .resize(scale().width(600).height(400))
-                      .format("png")
-                      .quality(100)}
-                    className={classes.image}
-                  />
-                }
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+      <div>
+        {bookImageUpload.map((image, index) => (
+          <AdvancedImage
+            cldImg={cld
+              .image(image?.public_id)
+              // .resize(scale().width(600).height(400))
+              .format("png")
+              .quality(100)}
+            className={classes.image}
+          />
+        ))}
       </div>
       <div className={classes.text}>
-        <h2>{courseName}</h2>
-        Starting Date : <Moment date={startingDate} format={"DD/MM/YYYY"} />
+        <h2>{book_name}</h2>
+        Author : {author}
         <br />
-        Ending Date : <Moment date={endingDate} format={"DD/MM/YYYY"} />
+        Category : {category}
         <br />
-        Teacher : {teacher}
+        Publisher : {publisher}
         <br />
-        Course Fee : {fee} kyats
+        Published Date : <Moment date={publish_date} format={"DD/MM/YYYY"} />
         <br />
         <h5>Details</h5>
         {details}
         <br />
         <div style={{ display: "flex" }}>
-          <Link
-            to={{
-              pathname: "/apply",
-              state: { ...props.location.state.item, isEdit: true },
-            }}
-          >
-            <Button type="primary" className={classes.btn}>
-              Apply Course
+          <a href={bookUrl} target={"_blank"}>
+            <Button
+              type="primary"
+              className={classes.btn}
+              disabled={bookUrl ? false : true}
+            >
+              {bookUrl ? "Download Book" : "No Download Link"}
             </Button>
-          </Link>
+          </a>
           {isLoggedIn && (
             <div>
               <Link
                 to={{
-                  pathname: "/editCourse",
+                  pathname: "/editBook",
                   state: { ...props.location.state.item, isEdit: true },
                 }}
               >

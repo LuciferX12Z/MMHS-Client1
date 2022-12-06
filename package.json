@@ -26,8 +26,9 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": " export SET NODE_OPTIONS=--openssl-legacy-provider && NODE_ENV=production && react-scripts start",
+    "start": "NODE_ENV=production && react-scripts start",
     "start:dev": "export SET NODE_OPTIONS=--openssl-legacy-provider && cross-env NODE_ENV=development && react-scripts start",
+    "start:dev2": "SET NODE_OPTIONS=--openssl-legacy-provider && cross-env NODE_ENV=development && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

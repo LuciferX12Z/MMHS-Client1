@@ -25,7 +25,7 @@ const url =
 export const Library = (props) => {
   const [library, setLibrary] = useState([]);
   const [isLoggedIn] = useContext(UserContext);
-
+  console.log(library);
   // set "withCredentials : true" to send cookies with every request
   useEffect(() => {
     axios
@@ -55,19 +55,30 @@ export const Library = (props) => {
         </div>
       )}
       <Row wrap justify>
-        {library?.book?.map((item) => (
-          <Col
-            key={item._id}
-            lg={6}
-            md={12}
-            sm={12}
-            xs={24}
-            style={{ display: "flex", justifyContent: "center" }}
-          >
-            {" "}
-            <CardComponent book={item} history={props?.history} />{" "}
-          </Col>
-        ))}
+        {library?.book?.map((item) => {
+          const bookItem = {
+            ...item,
+            image: item.bookImageUpload,
+            name: item.book_name,
+          };
+          return (
+            <Col
+              key={item._id}
+              lg={6}
+              md={12}
+              sm={12}
+              xs={24}
+              style={{ display: "flex", justifyContent: "center" }}
+            >
+              {" "}
+              <CardComponent
+                item={bookItem}
+                history={props?.history}
+                path={"book"}
+              />{" "}
+            </Col>
+          );
+        })}
       </Row>
     </>
   );

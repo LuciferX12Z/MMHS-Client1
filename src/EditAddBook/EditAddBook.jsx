@@ -1,7 +1,7 @@
 import { Row, Col, Typography, Form, Button, TypographyProps } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import classes from "../Apply/Apply.module.css";
-import FormItem1 from "../Apply/FormItem1";
+import FormItem2 from "../Apply/FormItem2";
 import axios from "axios";
 import moment from "moment";
 import ModalPopUp from "../Modal/ModalPopUp";
@@ -14,13 +14,13 @@ const url =
     ? process.env.REACT_APP_PROD_BACKEND_URL
     : process.env.REACT_APP_DEV_BACKEND_URL;
 
-export const EditAddCourse = (props) => {
+export const EditAddBook = (props) => {
   const [inputs, setInputs] = useState();
   const [isLoggedIn] = useContext(UserContext);
   const [modalVisible, setModalVisible] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
 
-  let isEdit = props.location?.pathname === "/editCourse";
+  let isEdit = props.location?.pathname === "/editBook";
 
   if (!isLoggedIn) {
     return (
@@ -29,44 +29,44 @@ export const EditAddCourse = (props) => {
       </Title>
     );
   }
-
-  let courseImageUpload = "";
-  let courseName = "";
+  let bookImageUpload = "";
+  let book_name = "";
   let details = "";
-  let endingDate = "";
-  let fee = "";
-  let startingDate = "";
-  let studentLimit = "";
-  let teacher = "";
+  let author = "";
+  let publisher = "";
+  let publish_date = "";
+  let bookUrl = "";
+  let category = "";
   let _id = "";
 
   if (isEdit) {
-    courseImageUpload = props.location?.state?.courseImageUpload;
-    courseName = props.location?.state?.courseName;
+    bookImageUpload = props.location?.state?.bookImageUpload;
+    book_name = props.location?.state?.book_name;
     details = props.location?.state?.details;
-    endingDate = props.location?.state?.endingDate;
-    fee = props.location?.state?.fee;
-    startingDate = props.location?.state?.startingDate;
-    studentLimit = props.location?.state?.studentLimit;
-    teacher = props.location?.state?.teacher;
+    publish_date = props.location?.state?.publish_date;
+    author = props.location?.state?.author;
+    publisher = props.location?.state?.publisher;
+    bookUrl = props.location?.state?.bookUrl;
+    category = props.location?.state?.category;
     _id = props.location?.state?._id;
     isEdit = true;
   }
+  console.log(props.location.state);
 
   if (isEdit && !_id) {
     return (
       <Title style={{ textAlign: "center" }}>
-        my bitch, you are trying to edit a course that doesn't exist
+        my bitch, you are trying to edit a book that doesn't exist
       </Title>
     );
   }
 
-  let courseImagesObject = [];
+  let bookImagesObject = [];
 
-  // console.log(courseImageUpload);
-  if (courseImageUpload) {
-    courseImageUpload.map((image, index) => {
-      return courseImagesObject.push({
+  // console.log(bookImageUpload);
+  if (bookImageUpload) {
+    bookImageUpload.map((image, index) => {
+      return bookImagesObject.push({
         uid: index,
         url: image.url,
         public_id: image.public_id,
@@ -75,15 +75,16 @@ export const EditAddCourse = (props) => {
   }
 
   const onFinish = (values) => {
+    console.log(values);
     setInputs(values);
   };
 
   let images = [];
   const onSubmitHandler = (values) => {
-    if (values?.courseImageUpload?.fileList?.length > 0) {
-      images = values.courseImageUpload.fileList.map(
+    if (values?.bookImageUpload?.fileList?.length > 0) {
+      images = values.bookImageUpload.fileList.map(
         (image, index) =>
-          (values.courseImageUpload.fileList[index].image = {
+          (values.bookImageUpload.fileList[index].image = {
             public_id: image.public_id,
             url: image.url,
             image: image?.image?.result,
@@ -91,23 +92,23 @@ export const EditAddCourse = (props) => {
       );
     }
     if (isSubmit) {
-      // console.log(values);
+      console.log(values);
       isEdit === true
         ? axios({
             method: "put",
-            url: `${url}/editCourse/${_id}`,
+            url: `${url}/library/editBook/${_id}`,
             data: { ...values },
             withCredentials: true,
           }).then(
-            (res) => res.status === 200 && props.history.replace("/courses")
+            (res) => res.status === 200 && props.history.replace("/library")
           )
         : axios({
             method: "post",
-            url: `${url}/addCourse`,
+            url: `${url}/library/addBook`,
             data: { ...values },
             withCredentials: true,
           }).then(
-            (res) => res.status === 200 && props.history.replace("/courses")
+            (res) => res.status === 200 && props.history.replace("/library")
           );
     }
     setIsSubmit(false);
@@ -125,14 +126,14 @@ export const EditAddCourse = (props) => {
         requiredMark={false}
         initialValues={
           isEdit && {
-            courseImageUpload: courseImagesObject,
-            courseName,
+            bookImageUpload: bookImagesObject,
+            book_name,
             details,
-            endingDate: moment(endingDate),
-            fee,
-            startingDate: moment(startingDate),
-            studentLimit,
-            teacher,
+            publish_date: moment(publish_date),
+            publisher,
+            bookUrl,
+            category,
+            author,
             _id,
           }
         }
@@ -143,42 +144,41 @@ export const EditAddCourse = (props) => {
         encType="multipart/form-data"
       >
         <Typography.Text
-          className={classes.editCourseTitle}
+          className={classes.editBookTitle}
           style={{ margin: "0 10px" }}
         >
-          {isEdit ? `Edit Course` : `Add Course`}
+          {isEdit ? `Edit Book` : `Add Book`}
         </Typography.Text>
-        <FormItem1 name="courseImageUpload" value={courseImagesObject} />
+        <FormItem2 name="bookImageUpload" value={bookImagesObject} />
         <Row>
           <Col md={12} sm={24} xs={24}>
             <div style={{ margin: "0 10px" }}>
-              <FormItem1 label="Course Name" name="courseName" />
-              <FormItem1 label="Teacher" name="teacher" />
+              <FormItem2 label="Book Title" name="book_name" />
               <Row gutter={[10, 0]}>
                 <Col xl={12} xxl={12} lg={12} md={12} sm={24}>
-                  <FormItem1 label="Student Limit" name="studentLimit" />
+                  <FormItem2 label="Author" name="author" />
                 </Col>
                 <Col xl={12} xxl={12} lg={12} md={12} sm={24}>
-                  <FormItem1 label="Course Fee" name="fee" />
+                  <FormItem2 label="Category" name="category" />
                 </Col>
               </Row>
+              <FormItem2 label="Downloadable Link(Optional)" name="bookUrl" />
             </div>
           </Col>
 
           <Col md={12} sm={24} xs={24}>
             <div style={{ margin: "0 10px" }}>
               <Row gutter={[10, 0]}>
-                <Col lg={12} md={12} sm={24} xs={24}>
-                  <FormItem1 label="Starting Date" name="startingDate" />
+                <Col xl={12} xxl={12} lg={12} md={12} sm={24}>
+                  <FormItem2 label="Publisher" name="publisher" />
                 </Col>
-                <Col lg={12} md={12} sm={24} xs={24}>
-                  <FormItem1 label="Ending Date" name="endingDate" />
+                <Col xl={12} xxl={12} lg={12} md={12} sm={24}>
+                  <FormItem2 label="Publish Date" name="publish_date" />
                 </Col>
               </Row>
-              <FormItem1 label="Details" name="details" />
+              <FormItem2 label="Details" name="details" />
             </div>
           </Col>
-          <Col md={24} sm={24} xs={24} xl={24} xxl={24}></Col>
         </Row>
         <Row gutter={[0, 20]} style={{ marginTop: 5 }}>
           <Col xs={24} sm={24} md={12} lg={12}>
@@ -204,14 +204,14 @@ export const EditAddCourse = (props) => {
               setIsSubmit={setIsSubmit}
               setModalVisible={setModalVisible}
               title={"Edit?"}
-              description={"Are you sure you want to edit this course?"}
+              description={"Are you sure you want to edit this book?"}
             />
           )}
           {/* // TODO: where to link when cancel is clicked */}
 
           <Col xs={24} sm={24} md={12} lg={12}>
             <div style={{ margin: "0 10px 20px 10px" }}>
-              <Link to={"/courses"}>
+              <Link to={"/library"}>
                 <Button
                   size="large"
                   style={{

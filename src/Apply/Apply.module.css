@@ -3,7 +3,9 @@
   padding-bottom: 50px;
 }
 
-.editCourseTitle, .title {
+.editCourseTitle,
+.title,
+.editBookTitle {
   font-size: calc(1.5em + 1vw);
 }
 .title {

@@ -6,26 +6,24 @@ import { Link } from "react-router-dom";
 const { Meta } = Card;
 
 export const CardComponent = (props) => {
+  // console.log(props);
   return (
     <Link
       to={{
-        pathname: `/courses/${props.course._id}`,
+        pathname: `/${props.path}/${props.item._id}`,
         state: {
-          course: props.course,
+          item: props.item,
         },
       }}
     >
       <div className={classes.container}>
         <Card
           className={classes.card}
-          cover={<img src={props?.course?.courseImageUpload[0]?.url} alt="" />}
+          cover={<img src={props?.item?.image[0]?.url} alt="" />}
           style={CardStyles.card}
           hoverable
         >
-          <Meta
-            title={props.course.courseName}
-            description={props.course.details}
-          />
+          <Meta title={props.item.name} description={props.item.details} />
         </Card>
       </div>
     </Link>
