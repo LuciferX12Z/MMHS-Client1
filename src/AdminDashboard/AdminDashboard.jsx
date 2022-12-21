@@ -37,7 +37,7 @@ export const AdminDashboard = () => {
             className={classes.drawer}
             title="Admin Dashboard"
             placement="left"
-            visible={openDrawer}
+            open={openDrawer}
             onClose={() => setOpenDrawer(false)}
             key={"left"}
             closable={false}

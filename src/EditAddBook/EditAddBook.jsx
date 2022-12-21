@@ -1,18 +1,27 @@
-import { Row, Col, Typography, Form, Button, TypographyProps } from "antd";
-import React, { useContext, useEffect, useState } from "react";
+import { Row, Col, Typography, Button } from "antd";
+import React, { useContext, useState } from "react";
 import classes from "../Apply/Apply.module.css";
-import FormItem2 from "../Apply/FormItem2";
-import axios from "axios";
+import FormItem1 from "../Apply/FormItem1";
 import moment from "moment";
 import ModalPopUp from "../Modal/ModalPopUp";
 import { UserContext } from "../contexts/UserContext";
 import { Link } from "react-router-dom";
+import FormContainer from "../FormContainer/FormContainer";
+import { addHandler, editHandler } from "../services/editAddItem.network";
 
 const { Title } = Typography;
-const url =
-  process.env.NODE_ENV === "production"
-    ? process.env.REACT_APP_PROD_BACKEND_URL
-    : process.env.REACT_APP_DEV_BACKEND_URL;
+
+let bookImageUpload = {
+  fileList: [],
+};
+let book_name = "";
+let details = "";
+let author = "";
+let publisher = "";
+let publish_date = "";
+let bookUrl = "";
+let category = "";
+let _id = "";
 
 export const EditAddBook = (props) => {
   const [inputs, setInputs] = useState();
@@ -29,18 +38,9 @@ export const EditAddBook = (props) => {
       </Title>
     );
   }
-  let bookImageUpload = "";
-  let book_name = "";
-  let details = "";
-  let author = "";
-  let publisher = "";
-  let publish_date = "";
-  let bookUrl = "";
-  let category = "";
-  let _id = "";
 
   if (isEdit) {
-    bookImageUpload = props.location?.state?.bookImageUpload;
+    bookImageUpload.fileList = props.location?.state?.bookImageUpload;
     book_name = props.location?.state?.book_name;
     details = props.location?.state?.details;
     publish_date = props.location?.state?.publish_date;
@@ -51,7 +51,6 @@ export const EditAddBook = (props) => {
     _id = props.location?.state?._id;
     isEdit = true;
   }
-  console.log(props.location.state);
 
   if (isEdit && !_id) {
     return (
@@ -63,26 +62,37 @@ export const EditAddBook = (props) => {
 
   let bookImagesObject = [];
 
-  // console.log(bookImageUpload);
-  if (bookImageUpload) {
-    bookImageUpload.map((image, index) => {
-      return bookImagesObject.push({
+  if (bookImageUpload.fileList) {
+    const bookImageList = bookImageUpload.fileList.map((image, index) => {
+      return {
         uid: index,
         url: image.url,
         public_id: image.public_id,
-      });
+      };
     });
+    bookImageUpload.fileList = bookImageList;
   }
+
+  const initialValue = {
+    bookImageUpload: bookImagesObject,
+    book_name,
+    details,
+    publish_date: isEdit ? moment(publish_date) : "",
+    publisher,
+    bookUrl,
+    category,
+    author,
+    _id,
+  };
 
   const onFinish = (values) => {
     console.log(values);
     setInputs(values);
   };
 
-  let images = [];
   const onSubmitHandler = (values) => {
     if (values?.bookImageUpload?.fileList?.length > 0) {
-      images = values.bookImageUpload.fileList.map(
+      values.bookImageUpload.fileList.map(
         (image, index) =>
           (values.bookImageUpload.fileList[index].image = {
             public_id: image.public_id,
@@ -94,22 +104,20 @@ export const EditAddBook = (props) => {
     if (isSubmit) {
       console.log(values);
       isEdit === true
-        ? axios({
-            method: "put",
-            url: `${url}/library/editBook/${_id}`,
-            data: { ...values },
+        ? editHandler({
+            url: `library/editBook/${_id}`,
+            values: { ...values },
             withCredentials: true,
-          }).then(
-            (res) => res.status === 200 && props.history.replace("/library")
-          )
-        : axios({
-            method: "post",
-            url: `${url}/library/addBook`,
-            data: { ...values },
+            history: props.history,
+            toLink: "/library",
+          })
+        : addHandler({
+            url: `library/addBook`,
+            values: { ...values },
             withCredentials: true,
-          }).then(
-            (res) => res.status === 200 && props.history.replace("/library")
-          );
+            history: props.history,
+            toLink: "/library",
+          });
     }
     setIsSubmit(false);
   };
@@ -120,28 +128,15 @@ export const EditAddBook = (props) => {
 
   return (
     <>
-      <Form
-        colon={false}
-        onFinish={onFinish}
-        requiredMark={false}
-        initialValues={
-          isEdit && {
-            bookImageUpload: bookImagesObject,
-            book_name,
-            details,
-            publish_date: moment(publish_date),
-            publisher,
-            bookUrl,
-            category,
-            author,
-            _id,
-          }
-        }
+      <FormContainer
+        valueObj={initialValue}
         style={{
           width: "70%",
           margin: "auto",
         }}
-        encType="multipart/form-data"
+        isEdit
+        requiredMark={false}
+        onFinish={onFinish}
       >
         <Typography.Text
           className={classes.editBookTitle}
@@ -149,20 +144,28 @@ export const EditAddBook = (props) => {
         >
           {isEdit ? `Edit Book` : `Add Book`}
         </Typography.Text>
-        <FormItem2 name="bookImageUpload" value={bookImagesObject} />
+        <FormItem1
+          name="bookImageUpload"
+          value={bookImageUpload.fileList}
+          imageMaxCount={1}
+        />
         <Row>
           <Col md={12} sm={24} xs={24}>
             <div style={{ margin: "0 10px" }}>
-              <FormItem2 label="Book Title" name="book_name" />
+              <FormItem1 label="Book Title" name="book_name" />
               <Row gutter={[10, 0]}>
                 <Col xl={12} xxl={12} lg={12} md={12} sm={24}>
-                  <FormItem2 label="Author" name="author" />
+                  <FormItem1 label="Author" name="author" />
                 </Col>
                 <Col xl={12} xxl={12} lg={12} md={12} sm={24}>
-                  <FormItem2 label="Category" name="category" />
+                  <FormItem1 label="Category" name="category" />
                 </Col>
               </Row>
-              <FormItem2 label="Downloadable Link(Optional)" name="bookUrl" />
+              <FormItem1
+                label="Downloadable Link(Optional)"
+                name="bookUrl"
+                exceptionName={"bookUrl"}
+              />
             </div>
           </Col>
 
@@ -170,13 +173,13 @@ export const EditAddBook = (props) => {
             <div style={{ margin: "0 10px" }}>
               <Row gutter={[10, 0]}>
                 <Col xl={12} xxl={12} lg={12} md={12} sm={24}>
-                  <FormItem2 label="Publisher" name="publisher" />
+                  <FormItem1 label="Publisher" name="publisher" />
                 </Col>
                 <Col xl={12} xxl={12} lg={12} md={12} sm={24}>
-                  <FormItem2 label="Publish Date" name="publish_date" />
+                  <FormItem1 label="Publish Date" name="publish_date" />
                 </Col>
               </Row>
-              <FormItem2 label="Details" name="details" />
+              <FormItem1 label="Details" name="details" />
             </div>
           </Col>
         </Row>
@@ -225,7 +228,7 @@ export const EditAddBook = (props) => {
             </div>
           </Col>
         </Row>
-      </Form>
+      </FormContainer>
     </>
   );
 };

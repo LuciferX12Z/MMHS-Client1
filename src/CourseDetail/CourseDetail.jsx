@@ -30,7 +30,7 @@ export const CourseDetail = (props) => {
   const [isSubmit, setIsSubmit] = useState(false);
 
   console.log(modalVisibile);
-  // console.log(props.location.state?.item);
+  console.log(props.location.state?.item, 'course detail');
   const {
     _id,
     courseImageUpload,
