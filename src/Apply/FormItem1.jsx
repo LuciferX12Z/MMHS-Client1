@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import classes from "./Apply.module.css";
 import { Form, Radio, Input, Select, DatePicker, Upload, Button } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
-import axios from "axios";
-import moment from "moment";
-import Moment from "react-moment";
 
 function blogChanger(image) {
   const reader = new FileReader();
@@ -16,75 +13,19 @@ function blogChanger(image) {
 }
 
 const { TextArea } = Input;
-const FormItem1 = (props) => {
-  const { label, name, value = null } = props;
+const FormItem1 = ({
+  label = "",
+  name,
+  value = null,
+  exceptionName = "",
+  imageMaxCount = 3,
+}) => {
   const [images, setImages] = useState([]);
   let message = "";
 
-  // const CLOUDINARY_URL="cloudinary://788359128755684:d2SSDGsF0WRdOeoW9F1iRTS2uDg@dmrv0lujq"
-  const uploadImage = (response) => {
-    // console.log(response.fileList[0]);
-    // setImages(response.fileList[0]);
-    // axios.post("https://api.cloudinary.com/v1_1/dmrv0lujq/upload", {
-    //   file: response.fileList,
-    //   upload_preset: "bph7yyze",
-    // }).then(res=> console.log(res));
-  };
-
   switch (name) {
-    case "name":
-      message = "Please fill your name";
-      break;
-    case "email":
-      message = "Please fill the email";
-      break;
-    case "phoneNumber":
-      message = "Please fill the phone number";
-      break;
-    case "age":
-      message = "Please fill the age";
-      break;
-    case "occupancy":
-      message = "Please fill the occupancy";
-      break;
-    case "company/school":
-      message = "Please fill the company or school";
-      break;
-    case "desiredCourse":
-      message = "Please fill the desired course";
-      break;
-    case "gender":
-      message = "Please select the gender";
-      break;
-    case "password":
-      message = "Password is required!";
-      break;
-    case "confirmPassword":
-      message = "Confirm password is required";
-      break;
-    case "courseName":
-      message = "Course name is required";
-      break;
-    case "teacher":
-      message = "Teacher name is required";
-      break;
-    case "studentLimit":
-      message = "Student Limit is required";
-      break;
-    case "startingDate":
-      message = "Starting date is required";
-      break;
-    case "endingDate":
-      message = "Ending date is required";
-      break;
-    case "fee":
-      message = "Course fee is required";
-      break;
-    case "courseImageUpload":
-      message = "Choose At least one Course image.";
-      break;
-    case "details":
-      message = "Details must be filled";
+    case name:
+      message = `Please fill your ${label}`;
       break;
     default:
       message = "";
@@ -93,7 +34,7 @@ const FormItem1 = (props) => {
   const rules = [
     {
       //   type: name === "email" && "email",
-      required: true,
+      required: exceptionName === name ? false : true,
       message: message,
     },
   ];
@@ -148,13 +89,13 @@ const FormItem1 = (props) => {
           <Input.Password placeholder="input password" />
         </Form.Item>
       );
-    } else if (name === "courseImageUpload") {
+    } else if (name.includes("Image")) {
       return (
         <Form.Item name={name} rules={rules} style={{ margin: "0 10px" }}>
           <Upload
             beforeUpload={() => false}
             listType="picture"
-            maxCount={3}
+            maxCount={imageMaxCount}
             multiple
             accept="image/*"
             onChange={(response) => {
@@ -166,7 +107,9 @@ const FormItem1 = (props) => {
             }}
             defaultFileList={value}
           >
-            <Button icon={<UploadOutlined />}>Upload (Max: 3)</Button>
+            <Button icon={<UploadOutlined />}>
+              Upload (Max: {imageMaxCount})
+            </Button>
           </Upload>
         </Form.Item>
       );

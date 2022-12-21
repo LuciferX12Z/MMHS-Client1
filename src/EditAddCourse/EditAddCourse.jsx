@@ -1,18 +1,27 @@
-import { Row, Col, Typography, Form, Button, TypographyProps } from "antd";
-import React, { useContext, useEffect, useState } from "react";
+import { Row, Col, Typography, Button } from "antd";
+import React, { useContext, useState } from "react";
 import classes from "../Apply/Apply.module.css";
 import FormItem1 from "../Apply/FormItem1";
-import axios from "axios";
 import moment from "moment";
 import ModalPopUp from "../Modal/ModalPopUp";
 import { UserContext } from "../contexts/UserContext";
 import { Link } from "react-router-dom";
+import FormContainer from "../FormContainer/FormContainer";
+import { addHandler, editHandler } from "../services/editAddItem.network";
 
 const { Title } = Typography;
-const url =
-  process.env.NODE_ENV === "production"
-    ? process.env.REACT_APP_PROD_BACKEND_URL
-    : process.env.REACT_APP_DEV_BACKEND_URL;
+
+let courseImageUpload = {
+  fileList: [],
+};
+let courseName = "";
+let details = "";
+let endingDate = "";
+let startingDate = "";
+let fee = "";
+let studentLimit = "";
+let teacher = "";
+let _id = "";
 
 export const EditAddCourse = (props) => {
   const [inputs, setInputs] = useState();
@@ -30,18 +39,8 @@ export const EditAddCourse = (props) => {
     );
   }
 
-  let courseImageUpload = "";
-  let courseName = "";
-  let details = "";
-  let endingDate = "";
-  let fee = "";
-  let startingDate = "";
-  let studentLimit = "";
-  let teacher = "";
-  let _id = "";
-
   if (isEdit) {
-    courseImageUpload = props.location?.state?.courseImageUpload;
+    courseImageUpload.fileList = props.location?.state?.courseImageUpload;
     courseName = props.location?.state?.courseName;
     details = props.location?.state?.details;
     endingDate = props.location?.state?.endingDate;
@@ -61,27 +60,36 @@ export const EditAddCourse = (props) => {
     );
   }
 
-  let courseImagesObject = [];
-
-  // console.log(courseImageUpload);
-  if (courseImageUpload) {
-    courseImageUpload.map((image, index) => {
-      return courseImagesObject.push({
+  if (courseImageUpload.fileList) {
+    const courseImageList = courseImageUpload.fileList.map((image, index) => {
+      return {
         uid: index,
         url: image.url,
         public_id: image.public_id,
-      });
+      };
     });
+    courseImageUpload.fileList = courseImageList;
   }
+
+  const initialValue = {
+    courseImageUpload: courseImageUpload,
+    courseName,
+    details,
+    startingDate: isEdit ? moment(startingDate) : "",
+    endingDate: isEdit ? moment(endingDate) : "",
+    fee,
+    studentLimit,
+    teacher,
+    _id,
+  };
 
   const onFinish = (values) => {
     setInputs(values);
   };
 
-  let images = [];
   const onSubmitHandler = (values) => {
     if (values?.courseImageUpload?.fileList?.length > 0) {
-      images = values.courseImageUpload.fileList.map(
+      values.courseImageUpload.fileList.map(
         (image, index) =>
           (values.courseImageUpload.fileList[index].image = {
             public_id: image.public_id,
@@ -91,24 +99,21 @@ export const EditAddCourse = (props) => {
       );
     }
     if (isSubmit) {
-      // console.log(values);
       isEdit === true
-        ? axios({
-            method: "put",
-            url: `${url}/editCourse/${_id}`,
-            data: { ...values },
+        ? editHandler({
+            url: `editCourse/${_id}`,
+            values: { ...values },
             withCredentials: true,
-          }).then(
-            (res) => res.status === 200 && props.history.replace("/courses")
-          )
-        : axios({
-            method: "post",
-            url: `${url}/addCourse`,
-            data: { ...values },
+            history: props.history,
+            toLink: "/courses",
+          })
+        : addHandler({
+            url: `addCourse`,
+            values: { ...values },
             withCredentials: true,
-          }).then(
-            (res) => res.status === 200 && props.history.replace("/courses")
-          );
+            history: props.history,
+            toLink: "/courses",
+          });
     }
     setIsSubmit(false);
   };
@@ -119,28 +124,15 @@ export const EditAddCourse = (props) => {
 
   return (
     <>
-      <Form
-        colon={false}
-        onFinish={onFinish}
-        requiredMark={false}
-        initialValues={
-          isEdit && {
-            courseImageUpload: courseImagesObject,
-            courseName,
-            details,
-            endingDate: moment(endingDate),
-            fee,
-            startingDate: moment(startingDate),
-            studentLimit,
-            teacher,
-            _id,
-          }
-        }
+      <FormContainer
+        valueObj={initialValue}
         style={{
           width: "70%",
           margin: "auto",
         }}
-        encType="multipart/form-data"
+        isEdit
+        requiredMark={false}
+        onFinish={onFinish}
       >
         <Typography.Text
           className={classes.editCourseTitle}
@@ -148,7 +140,10 @@ export const EditAddCourse = (props) => {
         >
           {isEdit ? `Edit Course` : `Add Course`}
         </Typography.Text>
-        <FormItem1 name="courseImageUpload" value={courseImagesObject} />
+        <FormItem1
+          name="courseImageUpload"
+          value={courseImageUpload.fileList}
+        />
         <Row>
           <Col md={12} sm={24} xs={24}>
             <div style={{ margin: "0 10px" }}>
@@ -164,7 +159,6 @@ export const EditAddCourse = (props) => {
               </Row>
             </div>
           </Col>
-
           <Col md={12} sm={24} xs={24}>
             <div style={{ margin: "0 10px" }}>
               <Row gutter={[10, 0]}>
@@ -225,7 +219,7 @@ export const EditAddCourse = (props) => {
             </div>
           </Col>
         </Row>
-      </Form>
+      </FormContainer>
     </>
   );
 };

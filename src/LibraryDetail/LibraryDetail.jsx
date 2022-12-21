@@ -73,6 +73,7 @@ export const BookDetail = (props) => {
       <div>
         {bookImageUpload.map((image, index) => (
           <AdvancedImage
+            key={index}
             cldImg={cld
               .image(image?.public_id)
               // .resize(scale().width(600).height(400))

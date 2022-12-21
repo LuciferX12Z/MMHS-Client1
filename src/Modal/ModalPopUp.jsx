@@ -19,7 +19,7 @@ const ModalPopUp = (props) => {
       <Modal
         title={props?.title}
         centered
-        visible={visible}
+        open={visible}
         onOk={onOkHandler}
         onCancel={onCancelHandler}
       >
