@@ -18,7 +18,7 @@ const url =
     : process.env.REACT_APP_DEV_BACKEND_URL;
 console.log("url");
 
-export const Login = ({ history }) => {
+export default function Login({ history }) {
   const [inputs, setInputs] = useState();
   const [isLoggedIn, setIsLoggedIn] = useContext(UserContext);
 
@@ -80,4 +80,4 @@ export const Login = ({ history }) => {
       </Row>
     </>
   );
-};
+}

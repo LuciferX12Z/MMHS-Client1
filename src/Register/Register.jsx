@@ -16,7 +16,7 @@ const url =
     ? process.env.REACT_APP_PROD_BACKEND_URL
     : process.env.REACT_APP_DEV_BACKEND_URL;
 
-export const Register = () => {
+export default function Register() {
   const [inputs, setInputs] = useState();
 
   const onFinish = (values) => {
@@ -65,4 +65,4 @@ export const Register = () => {
       </Row>
     </>
   );
-};
+}

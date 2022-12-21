@@ -22,7 +22,7 @@ const url =
     ? process.env.REACT_APP_PROD_BACKEND_URL
     : process.env.REACT_APP_DEV_BACKEND_URL;
 
-export const Library = (props) => {
+export default function Library(props) {
   const [library, setLibrary] = useState([]);
   const [isLoggedIn] = useContext(UserContext);
   console.log(library);
@@ -82,4 +82,4 @@ export const Library = (props) => {
       </Row>
     </>
   );
-};
+}

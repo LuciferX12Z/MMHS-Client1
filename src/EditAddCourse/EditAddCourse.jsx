@@ -23,7 +23,7 @@ let studentLimit = "";
 let teacher = "";
 let _id = "";
 
-export const EditAddCourse = (props) => {
+export default function EditAddCourse(props) {
   const [inputs, setInputs] = useState();
   const [isLoggedIn] = useContext(UserContext);
   const [modalVisible, setModalVisible] = useState(false);
@@ -222,4 +222,4 @@ export const EditAddCourse = (props) => {
       </FormContainer>
     </>
   );
-};
+}

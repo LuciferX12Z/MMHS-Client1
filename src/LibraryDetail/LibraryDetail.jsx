@@ -23,7 +23,7 @@ const url =
     ? process.env.REACT_APP_PROD_BACKEND_URL
     : process.env.REACT_APP_DEV_BACKEND_URL;
 
-export const BookDetail = (props) => {
+export default function BookDetail(props) {
   // console.log(props);
   const [isLoggedIn] = useContext(UserContext);
   const [modalVisibile, setModalVisible] = useState(false);
@@ -139,4 +139,4 @@ export const BookDetail = (props) => {
       </div>
     </div>
   );
-};
+}

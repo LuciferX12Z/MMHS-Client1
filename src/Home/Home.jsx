@@ -2,7 +2,7 @@ import React from "react";
 import classes from "./Home.module.css";
 import dummyImage from "../dummyImages/dummyBackground.png";
 
-export const Home = () => {
+export default function Home() {
   return (
     <div>
       <div className={classes.img}>
@@ -96,4 +96,4 @@ export const Home = () => {
       </div>
     </div>
   );
-};
+}

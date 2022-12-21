@@ -14,7 +14,7 @@ const shortNameBGColor = [
   "#FF8946",
 ];
 
-export const AdminDashboard = () => {
+export default function AdminDashboard() {
   const [openDrawer, setOpenDrawer] = useState(false);
   return (
     <>
@@ -25,7 +25,12 @@ export const AdminDashboard = () => {
         <SidebarToggleIcon
           width="30pt"
           height="30pt"
-          style={{ border: "1px solid lightGray", padding: "2px", margin: "2px", borderRadius : "5px" }}
+          style={{
+            border: "1px solid lightGray",
+            padding: "2px",
+            margin: "2px",
+            borderRadius: "5px",
+          }}
         />
       </div>
 
@@ -140,4 +145,4 @@ export const AdminDashboard = () => {
       </div>
     </>
   );
-};
+}

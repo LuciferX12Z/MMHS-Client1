@@ -17,7 +17,7 @@ const leftBackground = {
   height: "800px",
 };
 
-export const Apply = () => {
+export default function Apply() {
   const [inputs, setInputs] = useState();
   const [courses, setCourses] = useState([]);
   useEffect(() => {
@@ -72,4 +72,4 @@ export const Apply = () => {
       </Row>
     </>
   );
-};
+}

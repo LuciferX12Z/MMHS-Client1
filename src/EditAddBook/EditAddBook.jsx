@@ -23,7 +23,7 @@ let bookUrl = "";
 let category = "";
 let _id = "";
 
-export const EditAddBook = (props) => {
+export default function EditAddBook(props) {
   const [inputs, setInputs] = useState();
   const [isLoggedIn] = useContext(UserContext);
   const [modalVisible, setModalVisible] = useState(false);
@@ -231,4 +231,4 @@ export const EditAddBook = (props) => {
       </FormContainer>
     </>
   );
-};
+}

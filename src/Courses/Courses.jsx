@@ -13,7 +13,7 @@ const url =
     ? process.env.REACT_APP_PROD_BACKEND_URL
     : process.env.REACT_APP_DEV_BACKEND_URL;
 
-export const Courses = (props) => {
+export default function Courses(props) {
   const [courses, setCourses] = useState([]);
   const [isLoggedIn] = useContext(UserContext);
 
@@ -73,4 +73,4 @@ export const Courses = (props) => {
       </Row>
     </>
   );
-};
+}
