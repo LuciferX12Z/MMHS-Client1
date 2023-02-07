@@ -17,7 +17,7 @@ const leftBackground = {
   height: "800px",
 };
 
-export default function Apply() {
+export default function Apply({ history }) {
   const [inputs, setInputs] = useState();
   const [courses, setCourses] = useState([]);
   useEffect(() => {
@@ -26,6 +26,8 @@ export default function Apply() {
   const onFinish = (values) => {
     setInputs(values);
     axios.post(`${url}/apply`, { ...values });
+    setInputs();
+    history.push("/");
   };
 
   return (

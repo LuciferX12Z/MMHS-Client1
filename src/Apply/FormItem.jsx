@@ -80,7 +80,7 @@ const FormItem = ({ label, name, courses = [] }) => {
         >
           <Select size="large" style={{ width: "80%" }}>
             {courses?.course?.map((course) => (
-              <Select.Option value={course._id}>
+              <Select.Option value={course.courseName}>
                 {course.courseName}
               </Select.Option>
             ))}
