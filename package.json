@@ -31,7 +31,8 @@
     "start:dev2": "SET NODE_OPTIONS=--openssl-legacy-provider && cross-env NODE_ENV=development && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cypress": "cypress open"
   },
   "eslintConfig": {
     "extends": [
@@ -52,6 +53,7 @@
     ]
   },
   "devDependencies": {
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "cypress": "^12.5.1"
   }
 }
